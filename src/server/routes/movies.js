@@ -2,7 +2,7 @@ const Router = require('koa-router');
 const queries = require('../db/queries/movies');
 
 const router = new Router();
-const BASE_URL = `api/v1/movies`;
+const BASE_URL = `/api/v1/movies`;
 
 router.get(BASE_URL, async (ctx) => {
   try {

@@ -1,6 +1,7 @@
-process.env.NODE_ENV = 'test'
+process.env.NODE_ENV = 'test';
+process.env.POET = 3005;
 
-const chai = require('chai');
+const chai = require('chai'); 
 const expect = chai.expect;
 const chaiHttp = require('chai-http');
 
@@ -28,11 +29,11 @@ describe('routes: movies', () => {
         expect(err).not.exist;
         expect(res.status).eql(200);
         expect(res.type).eql('application/json');
-        expect(res.body.status).equla('success');
+        expect(res.body.status).eql('success');
         expect(res.body.data[0]).include.keys(
           'id', 'name'
         );
-        expect(res.body.data).eql(3);
+        expect(res.body.data.length).eql(3);
         done();
       })
     })

@@ -1,9 +1,11 @@
 const koa = require('koa');
+const logger = require('koa-logger');
 const app = new koa();
 const indexRoutes = require('./routes/index');
 const movieRoutes = require('./routes/movies');
-const PORT = 3001;
+const PORT = process.env.PORT || 3001;
 
+app.use(logger());
 app.use(indexRoutes.routes());
 app.use(movieRoutes.routes());
 
