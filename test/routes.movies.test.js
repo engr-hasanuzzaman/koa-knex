@@ -27,6 +27,13 @@ describe('routes: movies', () => {
       .end((err, res) => {
         expect(err).not.exist;
         expect(res.status).eql(200);
+        expect(res.type).eql('application/json');
+        expect(res.body.status).equla('success');
+        expect(res.body.data[0]).include.keys(
+          'id', 'name'
+        );
+        expect(res.body.data).eql(3);
+        done();
       })
     })
   })
