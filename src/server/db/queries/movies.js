@@ -1,11 +1,18 @@
 const knex = require('../connection');
-const table = 'movies';
+const tName = 'movies';
 
 function getAllMovies(){
-  return knex(table)
+  return knex(tName)
     .select('*');
 }
 
+function getMovieById(id){
+  return knex(tName)
+    .select('*')
+    .where({ id: parseInt(id) });
+}
+
 module.exports = {
-  getAllMovies
+  getAllMovies,
+  getMovieById
 };

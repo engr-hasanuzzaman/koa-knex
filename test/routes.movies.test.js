@@ -37,5 +37,18 @@ describe('routes: movies', () => {
         done();
       })
     })
-  })
+  });
+
+  describe('get /api/v1/movies/:id', () => {
+    it('should return valid movie', (done) => {
+      chai.request(server)
+      .get('/api/v1/movies/1')
+      .end((err, res) => {
+        expect(err).not.exist;
+        expect(res.status).eql(200);
+        expect(res).be.json;
+        done();
+      })
+    })
+  });
 });
