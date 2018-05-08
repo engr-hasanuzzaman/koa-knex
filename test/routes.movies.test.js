@@ -48,7 +48,7 @@ describe('routes: movies', () => {
         expect(res.status).eql(200);
         expect(res).be.json;
         done();
-      })
+      });
     });
 
     it('should throw error is movie not found', (done) => {
@@ -61,6 +61,6 @@ describe('routes: movies', () => {
         expect(res).be.json;
         done();
       });
-    })
+    });
   });
 });
