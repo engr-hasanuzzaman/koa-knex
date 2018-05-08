@@ -49,6 +49,18 @@ describe('routes: movies', () => {
         expect(res).be.json;
         done();
       })
+    });
+
+    it('should throw error is movie not found', (done) => {
+      chai.request(server)
+      .get('/api/v1/movies/9999')
+      .end((err, res) => {
+        expect(res.status).eql(404);
+        expect(res.body.status).eql('fail');
+        expect(res.body.msg).eql('movie not found');
+        expect(res).be.json;
+        done();
+      });
     })
   });
 });

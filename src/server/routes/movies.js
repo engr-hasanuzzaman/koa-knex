@@ -19,14 +19,44 @@ router.get(BASE_URL, async (ctx) => {
 router.get(`${BASE_URL}/:id`, async (ctx) => {
   try {
     let movie = await queries.getMovieById(ctx.params.id);
-    ctx.body = {
-      status: 'success',
-      movie: movie
+    if(movie.length){
+      ctx.body = {
+        status: 'success',
+        movie: movie
+      }
+    }else{
+      ctx.status = 404;
+      ctx.body = {
+        status: 'fail',
+        msg: 'movie not found'
+      }
     }
   } catch (err) {
     console.log(err);
   }
-})
+});
+
+router.delete(`${BASE_URL}/:id`, async (ctx) => {
+  try {
+    let movie = await queries.getMovieById(ctx.params.id);
+    console.log(`========= movid by id ${ctx.params.id} is ${movie}`);
+    if(movie.length){
+      ctx.body = {
+        status: 'success',
+        movie: movie
+      }
+    }else{
+      ctx.status = 404;
+      ctx.body = {
+        status: 'fail',
+        movie: 'movie not found'
+      }
+    }
+  } catch (err) {
+    console.log(err);
+  }
+});
+
 
 module.exports = router;
 
