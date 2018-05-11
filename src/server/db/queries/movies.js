@@ -13,10 +13,15 @@ function getMovieById(id){
 }
 
 function deleteMovieById(id){
-  return getMovieById(id).del();
+  return getMovieById(id).del().returning('*');
+}
+
+function insertMovie(movie){
+  return knex('movies').insert(movie).returning('*');
 }
 
 module.exports = {
   getAllMovies,
-  getMovieById
+  getMovieById,
+  insertMovie
 };

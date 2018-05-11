@@ -57,6 +57,26 @@ router.delete(`${BASE_URL}/:id`, async (ctx) => {
   }
 });
 
+router.post(BASE_URL, async (ctx) => {
+  try {
+    let movieAttrs = ctx.request.body;
+    let movie = await queries.insertMovie(movieAttrs);
+    if(movie.length){
+      ctx.body = {
+        status: 'success',
+        movie: movie
+      }
+    }else{
+      ctx.status = 404;
+      ctx.body = {
+        status: 'fail',
+        movie: 'Invalid movie data'
+      }
+    }
+  } catch (err) {
+    console.log(err);
+  }
+});
 
 module.exports = router;
 
