@@ -63,4 +63,31 @@ describe('routes: movies', () => {
       });
     });
   });
+
+  // test section for delete /api/v1/movies/:id
+  describe('DELETE /api/v1/movies/:id', () => {
+    beforeEach(() =>{
+      return knex.migrate.rollback()
+      .then(() => { return knex.migrate.latest(); })
+      .then(() => { return knex.seed.run(); })
+    });
+
+    afterEach(() => {
+      return knex.migrate.rollback();
+    });
+
+    // delete movie if found
+    it('should remove movie from movies', (done) => {
+      chai.request(server)
+      .delete('/api/v1/movies/1')
+      .end((err, res) => {
+        expect(err).not.exist;
+        expect(res.status).eql(200);
+        expect(res.body.status).eql('success');
+        // expect(res.body.movie.id).eql(1);
+        expect(knex('movies').select('*').count()).eql(2);
+        done();
+      })
+    })
+  });
 });

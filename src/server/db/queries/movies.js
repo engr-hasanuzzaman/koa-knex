@@ -12,6 +12,10 @@ function getMovieById(id){
     .where({ id: parseInt(id) });
 }
 
+function deleteMovieById(id){
+  return getMovieById(id).del();
+}
+
 module.exports = {
   getAllMovies,
   getMovieById
