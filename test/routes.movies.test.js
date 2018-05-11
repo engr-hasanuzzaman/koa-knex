@@ -81,11 +81,18 @@ describe('routes: movies', () => {
       chai.request(server)
       .delete('/api/v1/movies/1')
       .end((err, res) => {
+        let movieCountBeforeDelete = 0;
+        (async () => {
+          movieCountBeforeDelete = await knex('movies').length;
+        });
         expect(err).not.exist;
         expect(res.status).eql(200);
         expect(res.body.status).eql('success');
         // expect(res.body.movie.id).eql(1);
-        expect(knex('movies').select('*').count()).eql(2);
+        (async () => {
+          let moviesCount = await knex('movies').select('*').length;
+          expect(moviesCount).eql(movieCountBeforeDelete -1);
+        });
         done();
       })
     })
