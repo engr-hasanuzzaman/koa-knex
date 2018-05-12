@@ -20,8 +20,16 @@ function insertMovie(movie){
   return knex('movies').insert(movie).returning('*');
 }
 
+function updateMovie(id, attrs){
+  return knex(tName)
+  .update(attrs)
+  .where({ id: id })
+  .returning('*')
+}
+
 module.exports = {
   getAllMovies,
   getMovieById,
-  insertMovie
+  insertMovie,
+  updateMovie
 };

@@ -91,6 +91,11 @@ describe('routes: movies', () => {
   // inset new movie
   describe('post /api/v1/movies', () => {
     it('it should create new movie', (done) => {
+      let moviesCountBeforeInsert = 0;
+      (async () => {
+        moviesCountBeforeInsert = await knex('movies').select('*').length;
+      });
+
       chai.request(server)
       .post('/api/v1/movies')
       .send({
@@ -100,22 +105,43 @@ describe('routes: movies', () => {
         explicit: true
       })
       .end((err, res) => {
-        let moviesCountBeforeInsert = 0;
-        (async () => {
-          moviesCountBeforeInsert = await knex('movies').select('*').length;
-        });
         expect(err).not.exist;
         expect(res.status).eql(200);
         expect(res.body.status).eql('success');
-        expect(res.body.movie[0].name).eql('Harry potter');
-        expect(res.body.movie[0].genre).eql('Fantasy adventure');
-        expect(res.body.movie[0].rating).eql('9.5');
-        expect(res.body.movie[0].explicit).eql(true);
-       
-       (async () => {
-         let moviesCountAfterInsert = await knex('movies').select('*').length; 
-         expect(moviesCountAfterInsert).eql(moviesCountBeforeInsert + 1);
-       }); 
+        expect(res.body.movie.name).eql('Harry potter');
+        expect(res.body.movie.genre).eql('Fantasy adventure');
+        expect(res.body.movie.rating).eql('9.5');
+        expect(res.body.movie.explicit).eql(true);
+        
+        done(); 
+      })
+    });
+  });
+
+  // test put /api/v1/movies/:id
+  describe('put /api/v1/movies/:id', () => {
+    it('it should change movie', (done) => {
+      let movieBeforeUpdate = undefined;
+      (async () => {
+        movieBeforeUpdate = await knex('movies').select('*').where({ id: 1 });
+      });
+
+      chai.request(server)
+      .put('/api/v1/movies/1')
+      .send({
+        name: 'updated name',
+        genre: 'update genre',
+        rating: 0.0,
+        explicit: false
+      })
+      .end((err, res) => {
+        expect(err).not.exist;
+        expect(res.status).eql(200);
+        expect(res.body.status).eql('success');
+        expect(res.body.movie.name).eql('updated name');
+        expect(res.body.movie.genre).eql('update genre');
+        expect(res.body.movie.rating).eql('0');
+        expect(res.body.movie.explicit).eql(false);
         
         done(); 
       })

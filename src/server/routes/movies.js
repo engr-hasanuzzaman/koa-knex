@@ -39,7 +39,6 @@ router.get(`${BASE_URL}/:id`, async (ctx) => {
 router.delete(`${BASE_URL}/:id`, async (ctx) => {
   try {
     let movie = await queries.getMovieById(ctx.params.id);
-    console.log(`========= movid by id ${ctx.params.id} is ${movie}`);
     if(movie.length){
       ctx.body = {
         status: 'success',
@@ -60,11 +59,32 @@ router.delete(`${BASE_URL}/:id`, async (ctx) => {
 router.post(BASE_URL, async (ctx) => {
   try {
     let movieAttrs = ctx.request.body;
-    let movie = await queries.insertMovie(movieAttrs);
-    if(movie.length){
+    let movies = await queries.insertMovie(movieAttrs);
+    if(movies.length){
       ctx.body = {
         status: 'success',
-        movie: movie
+        movie: movies[0]
+      }
+    }else{
+      ctx.status = 404;
+      ctx.body = {
+        status: 'fail',
+        movie: 'Invalid movie data'
+      }
+    }
+  } catch (err) {
+    console.log(err);
+  }
+});
+
+router.put(`${BASE_URL}/:id`, async (ctx) => {
+  try {
+    let movieAttrs = ctx.request.body;
+    let movies = await queries.updateMovie(ctx.params.id, movieAttrs);
+    if(movies.length){
+      ctx.body = {
+        status: 'success',
+        movie: movies[0]
       }
     }else{
       ctx.status = 404;
