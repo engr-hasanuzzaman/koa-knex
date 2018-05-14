@@ -6,6 +6,7 @@ const session = require('koa-session');
 
 const indexRoutes = require('./routes/index');
 const movieRoutes = require('./routes/movies');
+const authRoutes = require('./routes/auth');
 
 const app = new koa();
 const PORT = process.env.PORT || 3001;
@@ -26,6 +27,7 @@ app.use(passport.session());
 // routing
 app.use(indexRoutes.routes());
 app.use(movieRoutes.routes());
+app.use(authRoutes.routes());
 
 const server = app.listen(PORT, () => {
   console.log('app is runnin on port ', PORT);
